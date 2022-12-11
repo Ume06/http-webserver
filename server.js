@@ -1,16 +1,17 @@
 const http = require('http');
-const fs = require('fs/promises')
+const fs = require('fs/promises');
 
 const host = 'localhost';
 const port = 8000;
+var indexFile;
 
+fs.readFile('./index.html').then((contents) => {
+	indexFile = contents;
+});
 const requestListener = function (req, res) {
-        fs.readFile('./index.html')
-            .then(contents => {
-                res.setHeader('Content-Type', 'text/html');
-                res.writeHead(200);
-                res.end(contents)
-            })
+	res.setHeader('Content-Type', 'text/html');
+	res.writeHead(200);
+	res.end(indexFile);
 };
 
 const server = http.createServer(requestListener);
